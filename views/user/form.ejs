@@ -1,0 +1,172 @@
+
+<link rel="stylesheet" href="/asset/css/pages/user/list.css">
+<link rel="stylesheet" href="/asset/css/pages/user/form.css">
+<div class="contentInner">
+    <!--簡単検索-->
+    <section class="home-section">
+        <div class="home-content">
+            <% if (typeof message !== 'undefined') { %>
+                <%- include(`../common/message_${message.type}`, message) %>
+            <% } %>
+            <div class="sales-boxes mt-4">
+                
+            <div class="recent-sales box">
+                <div class="title"><%= user === '' ? 'Add' : 'Edit' %></div>
+                <form action="/user/form<%= user === '' ? '' : '/'+user.id %>" method="post" id="formUser<%= user === '' ? 'Create' : 'Update' %>">
+                <div class="row searchdiv">
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row">
+                        <label for="id" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">ID</label>
+                        <input 
+                            type="text" 
+                            class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control" 
+                            disabled name="id" 
+                            value="<%= user === '' ? '' : user.id %>"
+                        />
+                    </div>
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row">
+                        <label for="name" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">User Name</label>
+                        <input 
+                            type="text" 
+                            class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control" 
+                            name="name" 
+                            <%= loginUser.positionId == 0 ? '' : 'disabled'%>
+                            value=
+                            "<%= 
+                                user === '' 
+                                ? valueExists === '' ? '' : valueExists.name 
+                                : valueExists === '' 
+                                    ? user.name 
+                                    : valueExists.name
+                            %>"
+                        />
+                    </div>
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row">
+                        <label for="email" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Email</label>
+                        <input 
+                            type="text" 
+                            class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control" 
+                            name="email" 
+                            <%= loginUser.positionId == 0 ? '' : 'disabled'%>
+                            value=
+                            "<%= 
+                                user === '' 
+                                ? valueExists === '' ? '' : valueExists.email 
+                                : valueExists === '' 
+                                    ? user.email 
+                                    : valueExists.email
+                            %>"
+                        />
+                    </div>
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row">
+                        <label for="groupId" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Group</label>
+                        <select <%= loginUser.positionId == 0 ? '' : 'disabled'%> class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control" name="groupId">
+                            <% if(groupName !== null) { %>
+                                <option value="" selected>Choose a group</option>
+                                <% for(let i = 0; i < groupName.length; i++) { %>
+                                    <option 
+                                        value="<%= groupName[i].id %>" 
+                                        <%= 
+                                            user === '' 
+                                            ? valueExists === '' 
+                                                ? '' 
+                                                : groupName[i].id == valueExists.groupId 
+                                                    ? 'selected' 
+                                                    : '' 
+                                            : valueExists === ''
+                                                ? groupName[i].id == user.groupId 
+                                                    ? 'selected' 
+                                                    : ''  
+                                                : groupName[i].id == valueExists.groupId 
+                                                    ? 'selected' 
+                                                    : '' 
+                                        %>
+                                    >
+                                        <%= groupName[i].name %>
+                                    </option>
+                                <% } %>
+                            <% } else { %>
+                                <option value="" selected>Please created group</option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row date">
+                        <label for="startedDate" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Started Date</label>
+                        <input 
+                            type="text" 
+                            placeholder="DD/MM/YYYY" 
+                            class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control" 
+                            name="startedDate" 
+                            id="startedDate" 
+                            <%= loginUser.positionId == 0 ? '' : 'disabled'%>
+                            value=
+                            "<%= 
+                                user === '' 
+                                ? valueExists === '' ? '' : valueExists.startedDate 
+                                : valueExists === '' 
+                                    ? user.startedDate 
+                                    : valueExists.startedDate
+                            %>"
+                            />
+                        <i class="date-icon fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row">
+                        <label for="positionId" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Position</label>
+                        <select <%= loginUser.positionId == 0 ? '' : 'disabled'%> class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control" name="positionId">
+                            <option value="" selected>Choose a position</option>
+                            <% for(let i = 0; i < 4; i++) { %>
+                                <option 
+                                    value="<%= i %>" 
+                                    <%= 
+                                        user === '' 
+                                        ? valueExists === '' 
+                                            ? ''
+                                            :  valueExists.positionId == i 
+                                                ? 'selected'
+                                                : ''
+                                        : valueExists === ''
+                                            ? user.positionId == i 
+                                                ? 'selected' 
+                                                : ''
+                                            : valueExists.positionId == i 
+                                                ? 'selected' 
+                                                : '' 
+                                    %> 
+                                >
+                                    <%=position[i]%>
+                                </option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row">
+                        <label for="password" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Password</label>
+                        <input type="password" class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control " name="password" id="password">
+                    </div>
+                    <div class="col-12 mt-5 col-md-6 col-xl-6 row">
+                        <label for="rePassword" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Password Confirmation</label>
+                        <input type="password" class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control" name="rePassword">
+                    </div>
+                </div>
+                <div class="titleform mt-5">
+                    <% if(user === '' && loginUser.positionId == 0) { %>
+                        <button type="submit" class="btn btn-info" id="createdUser">Register</button>
+                    <% } else if(user !== '') { %>
+                        <button type="submit" class="btn btn-info" id="updatedUser">Update</button>
+                        <% if(loginUser.positionId == 0) { %>
+                            <button type="submit" class="btn btn-danger" name="<%=user.id%>" id="deletedUser">Delete</button>
+                        <% } %>
+                    <% } %>
+                    <button type="submit" class="btn btn-secondary" id="cancelUser">Cancel</button>
+                </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </section>
+  </div>
+  <div style="height: 0; position: absolute; top: 0; z-index: 1000000;" class="dialog-deleteuser">
+    <div id="dialog-confirm" title="Confirm delete?">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span><span class="text"></span></p>
+    </div>
+  </div>
+<%- contentFor('pageTitle') %>
+UserAddEditDelete

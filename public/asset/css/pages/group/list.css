@@ -1,0 +1,51 @@
+.upload-file {
+  cursor: pointer;
+}
+#importGroup {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.sales-boxes .boxthree .titlenext button {
+  width: 125px;
+  /* margin-bottom: 10px; */
+}
+@media (max-width: 1150px) {
+  .home-content .sales-boxes .boxthree {
+    width: 100%;
+    overflow-x: hidden;
+    margin-bottom: 30px;
+  }
+  .home-content .sales-boxes .boxthree .overflowTable {
+    overflow-x: scroll;
+  }
+}
+@media only screen and (max-width: 401px) {
+  .sales-boxes .boxthree .titlenext {
+    display: flex;
+    flex-direction: column;
+  }
+  .sales-boxes .boxthree .titlenext button {
+    width: 100% !important;
+    margin: 0;
+    margin-top: 5px !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+.sales-boxes .box .title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  /* margin-bottom: 10px; */
+}
+
+.sales-boxes .boxthree .title {
+  display: flex;
+  justify-content: space-between;
+  font-size: 24px !important;
+  font-weight: 600 !important;
+  /* margin-bottom: 10px; */
+}
