@@ -1,0 +1,71 @@
+<link rel="stylesheet" href="/asset/css/pages/user/list.css">
+<link rel="stylesheet" href="/asset/css/pages/group/list.css">
+<!-- Main content -->
+<div class="contentInner">
+    <!--簡単検索-->
+    <section class="home-section">
+      <div class="home-content">
+        <% if (typeof message !== 'undefined') { %>
+          <%- include(`../common/message_${message.type}`, message) %>
+        <% } %>
+        <span id="errJs"></span>
+        <div class="sales-boxes" style="margin-top: 50px;">    
+          <div class="recent-sales boxthree">
+          <div class="title">Group List</div>
+          <div class="pagination">
+            <% if(totalCount !== '') { %>
+              <% if(totalCount > 10) { %>
+                <span></span>
+                <%- newPagination(totalCount) %>
+              <% } %>
+            <% } %>
+          </div>
+          <div class="overflowTable" style="overflow-x: scroll;">
+            <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Group Name</th>
+                      <th scope="col">Group Note</th>
+                      <th scope="col">Group Leader</th>
+                      <th scope="col">Floor Number</th>
+                      <th scope="col">Created Date</th>
+                      <th scope="col">Updated Date</th>
+                      <th scope="col">Deleted Date</th>
+                  </tr>
+              </thead>
+              <% if(totalCount >= 1) { %>
+                <tbody style="word-wrap: break-word;">
+                  <% for(let i = 0; i < group.length; i++) { %> 
+                    <tr>
+                      <td><%= group[i].id %></td>
+                      <td <% if(group[i].name.split(' ').length <= 1) { %>style='max-width: 300px'<% } %>><%= group[i].name %></td>
+                      <td <% if(group[i].note && group[i].note.split(' ').length <= 1) { %>style='max-width: 300px'<% } %>><%= group[i].note %></td>
+                      <td <% if(group[i].groupLeader && group[i].groupLeader.split(' ').length <= 1) { %>style='max-width: 400px'<% } %>><%= group[i].groupLeader %></td>
+                      <td><%= group[i].groupFloorNumber %></td>
+                      <td><%= group[i].createdDate %></td>
+                      <td><%= group[i].updatedDate %></td>
+                      <td><%= group[i].deletedDate %></td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              <% } %>
+              </table>
+              <% if(totalCount < 1) { %>
+                <span>No Group Found</span>
+              <% } %>
+            </div>
+          <div class="titlenext mt-4">
+            <form action="/group/importCSV" method="post" id="importCsvGroup" enctype="multipart/form-data">
+              <label for="importGroup" class="upload-file btn btn-info">Import CSV</label>
+            <input type="file" id="importGroup" style="max-width: 0px;" name="files"/>
+            </form>
+            
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  
+  <%- contentFor('pageTitle') %>
+  Group List

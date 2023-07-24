@@ -1,0 +1,23 @@
+<!-- Header -->
+<header>
+  <div id="header">
+    <header class="navbar navbar-expand-md fixed-top">
+      <div class="user-info d-none d-lg-flex align-items-center ml-3 item-icon-header">
+          <div>
+            <% if (loginUser.name) { %>
+                  <div >
+                    <a class="text-header header-username" id="navbarDropdownUser" style="width: auto !important; max-width: 300px !important; overflow: hidden !important;">
+                      <%= loginUser.name %>
+                  </a>
+                  <a class="text-header header-username" href="/logout?redirect=<%= logoutRedirect %>" type="button" style="overflow: hidden !important; width: auto !important; color: #BF474D" id="logout" >Logout</a>
+                  </div>
+                  
+            <% } else { %>
+              <a href="/login" style="color: #01a2e7; line-height: 40px; text-decoration: none;">Login</a>
+            <% } %>
+          </div>
+      </div>
+  </header>
+
+  </div>
+</header>

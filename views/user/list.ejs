@@ -1,0 +1,103 @@
+
+<link rel="stylesheet" href="/asset/css/pages/user/list.css">
+<div class="contentInner">
+    <!--簡単検索-->
+    <section class="home-section">
+      <div class="home-content">
+        <% if (typeof message !== 'undefined') { %>
+          <%- include(`../common/message_${message.type}`, message) %>
+        <% } %>
+        <div class="sales-boxes mt-4">
+          <div class="recent-sales box">
+            <div class="title">User List</div>
+            <form action="/user" method="get" id="searchUserFrom">
+              <div class="row searchdiv">
+                  <div class="col-12 mt-4 col-md-6 col-xl-6 row">
+                      <label for="name" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">User Name</label>
+                      <input type="text" class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control " name="name" value="<%= query.name %>">
+                  </div>
+                  <div class="col-12 mt-4 col-md-6 col-xl-6"></div>
+                  <div class="col-12 mt-5 col-md-6 col-xl-6 row date">
+                      <label for="startedDateFrom" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Started Date From</label>
+                      <input type="text" placeholder="DD/MM/YYYY" class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control " name="startedDateFrom" id="startedFrom" value="<%= query.startedDateFrom %>" data-error="#errorDateFrom">
+                      <i class="date-icon-from fa fa-calendar" aria-hidden="true"></i>
+                      <span id="errorFrom" class="error-message m-bottom-10"></span>
+                  </div>
+                  <div class="col-12 mt-5 col-md-6 col-xl-6 row date">
+                    <label for="startedDateTo" class="col-12 col-md-5 col-xl-5 col-xsl-4 col-xsl-3 col-xxl-3">Started Date To</label>
+                    <input type="text" placeholder="DD/MM/YYYY" class="col-12 col-md-6 col-xl-6 col-xsl-7 col-xsl-8 col-xxl-6 form-control " name="startedDateTo" id="startedTo" value="<%= query.startedDateTo %>" data-error="#errorDate">
+                    <i class="date-icon-to fa fa-calendar" aria-hidden="true"></i>
+                    <span id="errorTo" class="error-message m-bottom-10"></span>
+                  </div>
+                  <div class="row col-12">
+                    <span id="errorDateFrom" class="error-message m-bottom-10 col-6"></span>
+                    <span id="errorDate" class="error-message m-bottom-10 col-6"></span>
+                  </div>
+              </div>
+              <div class="titlenext mt-4">
+                  <button type="submit" class="btn btn-info" id="searchUser">Search</button>
+                  <button type="submit" class="btn btn-secondary" id="clearSearch">Clear</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="sales-boxes" style="margin-top: 50px;">
+          <div class="recent-sales boxtwo">
+          <div class="pagination">
+            <% if(totalCount !== '') { %>
+              <% if(totalCount > 10) { %>
+                <span></span>
+                <%- newPagination(totalCount) %>
+              <% } else if(totalCount <= 0) { %>
+                <span>No User Found</span>
+              <% } %>
+            <% } %>
+          </div>
+          <% if(totalCount > 0) { %>
+          <div class="overflowTable" style="overflow-x: scroll;">
+            <table class="table table-bordered">
+              <thead>
+                  <tr>
+                      <th scope="col">User Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Group Name</th>
+                      <th scope="col">Started Date</th>
+                      <th scope="col">Position</th>
+                  </tr>
+              </thead>
+              <tbody style="word-wrap: break-word;">
+                <% for(let i = 0; i < user.length; i++) { %>
+                  <tr>
+                    <td <% if(user[i].name.split(' ').length <= 1) { %>style='max-width: 300px'<% } %>>
+                      <% if(loginUser.positionId===0) { %>
+                        <a name="<%=user[i].id%>" class="tda" href="/user/form/<%= user[i].id %>">
+                          <%= user[i].name %>
+                        </a>
+                      <% } else { %>
+                        <%= user[i].name %>
+                      <% } %>
+                    </td>
+                    <td <% if(user[i].email.split(' ').length <= 1) { %>style='max-width: 400px'<% } %>><%= user[i].email %></td>
+                    <td <% if(user[i].groupName && user[i].groupName.split(' ').length <= 1) { %>style='max-width: 400px'<% } %>><%= user[i].groupName %></td>
+                    <td><%= user[i].startedDate %></td>
+                    <td><%= user[i].positionId %></td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+          <% } %>
+          <div class="titlenext mt-4">
+            <% if(loginUser.positionId===0) { %>
+              <a style="color: #fff; text-decoration: none;" href="/user/form"><button type="submit" class="btn btn-primary" id="newUser">Add New</button></a>
+            <% if(totalCount!==0 && totalCount!=='') { %>
+              <button type="submit" class="btn btn-success" id="exportCSV">Export CSV</button>
+            <% } %>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+<%- contentFor('pageTitle') %>
+User List
